@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇦🇲 Arménie – Tereza, Gabriela, Kateřina</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0a08;
+  --surface: #161210;
+  --surface2: #201a14;
+  --border: #2e2418;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: #7a6030;
+  --cream: #f0e8d8;
+  --cream-dim: #a89070;
+  --text: #e8dcc8;
+  --text-dim: #887a68;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+
+/* HOMEPAGE */
+#homepage { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 50% 110%,rgba(201,168,76,.09) 0%,transparent 70%), radial-gradient(ellipse 50% 40% at 20% 80%,rgba(184,64,64,.06) 0%,transparent 60%), linear-gradient(180deg,#0c0a08 0%,#12100c 40%,#0e0c09 100%); z-index:0; }
+.mountain-svg { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:900px; opacity:.18; z-index:1; }
+.hero-content { position:relative; z-index:2; text-align:center; padding:2rem; animation:fadeUp 1.2s ease forwards; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.hero-flag { font-size:3rem; margin-bottom:1rem; display:block; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(2.4rem,6vw,4.5rem); font-weight:400; color:var(--gold-light); letter-spacing:.04em; line-height:1.1; margin-bottom:.5rem; }
+.hero-subtitle { font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.25em; color:var(--text-dim); text-transform:uppercase; margin-bottom:2.5rem; }
+.avatars { display:flex; gap:2rem; justify-content:center; margin-bottom:3rem; flex-wrap:wrap; }
+.avatar-card { display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+.avatar-circle { width:80px; height:80px; border-radius:50%; border:2px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; font-size:2rem; background:var(--surface2); transition:border-color .3s,box-shadow .3s; }
+.avatar-circle:hover { border-color:var(--gold); box-shadow:0 0 20px rgba(201,168,76,.3); }
+.avatar-name { font-family:'Playfair Display',serif; font-size:.95rem; color:var(--cream-dim); letter-spacing:.05em; }
+.dates-badge { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.2em; color:var(--gold-dim); border:1px solid var(--border); padding:.4rem 1.2rem; border-radius:2px; margin-bottom:2.5rem; text-transform:uppercase; display:inline-block; }
+.enter-btn { background:transparent; border:1.5px solid var(--gold); color:var(--gold-light); font-family:'Playfair Display',serif; font-size:1.1rem; font-style:italic; padding:.9rem 3rem; cursor:pointer; letter-spacing:.08em; transition:all .3s; position:relative; overflow:hidden; }
+.enter-btn::before { content:''; position:absolute; inset:0; background:rgba(201,168,76,.08); transform:translateX(-100%); transition:transform .3s; }
+.enter-btn:hover::before { transform:translateX(0); }
+.enter-btn:hover { box-shadow:0 0 30px rgba(201,168,76,.2); }
+
+/* APP */
+#app { display:none; min-height:100vh; flex-direction:column; }
+
+/* NAV */
+.nav { position:sticky; top:0; z-index:100; background:rgba(12,10,8,.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 .5rem; }
+.nav-inner { display:flex; align-items:center; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; max-width:1100px; margin:0 auto; }
+.nav-inner::-webkit-scrollbar { display:none; }
+.nav-home-btn { background:none; border:none; color:var(--gold); font-size:1.3rem; cursor:pointer; padding:.9rem .8rem .9rem 0; flex-shrink:0; transition:transform .2s; }
+.nav-home-btn:hover { transform:scale(1.2); }
+.nav-divider { width:1px; height:20px; background:var(--border); flex-shrink:0; margin-right:.4rem; }
+.nav-tab { background:none; border:none; color:var(--text-dim); font-family:'DM Sans',sans-serif; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; padding:.9rem .85rem; cursor:pointer; white-space:nowrap; flex-shrink:0; border-bottom:2px solid transparent; transition:all .2s; }
+.nav-tab:hover { color:var(--cream); }
+.nav-tab.active { color:var(--gold-light); border-bottom-color:var(--gold); }
+
+/* CONTENT */
+.content { max-width:860px; margin:0 auto; padding:2.5rem 1.2rem 4rem; width:100%; }
+.page { display:none; }
+.page.active { display:block; }
+
+/* PAGE HEADER */
+.page-header { margin-bottom:2.5rem; border-bottom:1px solid var(--border); padding-bottom:1.5rem; }
+.page-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:400; color:var(--gold-light); line-height:1.2; }
+.page-desc { font-size:.88rem; color:var(--text-dim); margin-top:.5rem; font-style:italic; }
+
+/* SECTION */
+.section { margin-bottom:2.5rem; }
+.section-title { font-family:'DM Mono',monospace; font-size:.67rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:1rem; display:flex; align-items:center; gap:.8rem; }
+.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* CHECKLIST */
+.checklist { display:flex; flex-direction:column; gap:.45rem; }
+.check-item { display:flex; align-items:flex-start; gap:.9rem; padding:.75rem 1rem; background:var(--surface); border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:all .2s; user-select:none; }
+.check-item:hover { background:var(--surface2); border-color:var(--gold-dim); }
+.check-item.checked { opacity:.48; }
+.check-item.checked .check-label { text-decoration:line-through; }
+.check-box { width:18px; height:18px; border:1.5px solid var(--gold-dim); border-radius:2px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.check-item.checked .check-box { background:var(--gold-dim); border-color:var(--gold-dim); }
+.check-box::after { content:'✓'; font-size:11px; color:var(--bg); display:none; }
+.check-item.checked .check-box::after { display:block; }
+.check-label { font-size:.9rem; color:var(--text); flex:1; }
+.check-note { font-size:.75rem; color:var(--text-dim); margin-top:.2rem; }
+
+/* INFO CARDS */
+.info-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1.2rem 1.4rem; margin-bottom:1rem; }
+.info-card-title { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--gold-light); margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; }
+.info-card p { font-size:.87rem; color:var(--text-dim); line-height:1.75; }
+.info-card ul { list-style:none; display:flex; flex-direction:column; gap:.4rem; margin-top:.6rem; }
+.info-card ul li { font-size:.87rem; color:var(--text-dim); padding-left:1rem; position:relative; line-height:1.6; }
+.info-card ul li::before { content:'›'; position:absolute; left:0; color:var(--gold-dim); }
+.highlight { color:var(--gold-light); font-weight:500; }
+
+/* ACCOMMODATION */
+.accom-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1.4rem; margin-bottom:1.3rem; position:relative; overflow:hidden; }
+.accom-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); }
+.accom-night { font-family:'DM Mono',monospace; font-size:.64rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:.4rem; }
+.accom-name { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--cream); margin-bottom:.25rem; }
+.accom-location { font-size:.8rem; color:var(--text-dim); margin-bottom:1rem; }
+.accom-details { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:.7rem; margin-bottom:.9rem; }
+.accom-detail { background:var(--bg); padding:.6rem .9rem; border-radius:2px; }
+.accom-detail-label { font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); margin-bottom:.2rem; }
+.accom-detail-value { font-size:.9rem; color:var(--cream); font-weight:500; }
+.accom-note { font-size:.8rem; color:var(--text-dim); font-style:italic; border-top:1px solid var(--border); padding-top:.8rem; line-height:1.65; }
+.breakfast-badge { display:inline-block; background:rgba(201,168,76,.1); border:1px solid var(--gold-dim); color:var(--gold-light); font-size:.63rem; letter-spacing:.13em; text-transform:uppercase; padding:.2rem .6rem; border-radius:2px; margin-bottom:.7rem; }
+
+/* ITINERARY */
+.day-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; margin-bottom:1.5rem; overflow:hidden; }
+.day-header { background:var(--surface2); padding:1rem 1.4rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.day-badge { background:var(--gold-dim); color:var(--bg); font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; padding:.3rem .7rem; border-radius:2px; white-space:nowrap; }
+.day-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--cream); }
+.day-body { padding:1.2rem 1.4rem; display:flex; flex-direction:column; gap:1rem; }
+.stop { display:flex; gap:1rem; align-items:flex-start; }
+.stop-icon { font-size:1.35rem; flex-shrink:0; width:2rem; text-align:center; }
+.stop-title { font-size:.95rem; font-weight:500; color:var(--cream); margin-bottom:.2rem; }
+.stop-desc { font-size:.83rem; color:var(--text-dim); line-height:1.65; }
+.stop-time { font-family:'DM Mono',monospace; font-size:.65rem; color:var(--gold-dim); letter-spacing:.08em; margin-top:.25rem; }
+.stop-divider { border:none; border-top:1px dashed var(--border); }
+
+/* YEREVAN */
+.yerevan-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1.3rem 1.4rem; margin-bottom:1rem; }
+.yerevan-num { font-family:'DM Mono',monospace; font-size:.63rem; color:var(--gold-dim); letter-spacing:.18em; margin-bottom:.35rem; text-transform:uppercase; }
+.yerevan-name { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--gold-light); margin-bottom:.5rem; }
+.yerevan-body { font-size:.85rem; color:var(--text-dim); line-height:1.72; }
+.yerevan-time { margin-top:.55rem; font-family:'DM Mono',monospace; font-size:.68rem; color:var(--text-dim); border-top:1px solid var(--border); padding-top:.5rem; letter-spacing:.07em; }
+
+@media(max-width:600px) {
+  .accom-details { grid-template-columns:1fr 1fr; }
+  .avatars { gap:1.2rem; }
+  .hero-title { font-size:2.2rem; }
+  .nav-tab { font-size:.7rem; padding:.9rem .65rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HOMEPAGE -->
+<div id="homepage">
+  <div class="hero-bg"></div>
+  <svg class="mountain-svg" viewBox="0 0 900 320" preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 320 L80 320 L180 210 L220 230 L270 170 L310 205 L360 140 L400 90 L445 140 L490 108 L535 72 L575 118 L620 148 L660 132 L700 158 L745 188 L790 228 L830 210 L870 258 L900 320 Z" fill="rgba(201,168,76,0.15)"/>
+    <path d="M360 140 L400 90 L425 118 L400 135 L378 124 Z" fill="rgba(240,232,216,0.22)"/>
+    <path d="M490 108 L535 72 L560 98 L535 112 L510 102 Z" fill="rgba(240,232,216,0.28)"/>
+  </svg>
+
+  <div class="hero-content">
+    <span class="hero-flag">🇦🇲</span>
+    <h1 class="hero-title">Arménie</h1>
+    <p class="hero-subtitle">13. – 16. března 2026</p>
+    <div class="avatars">
+      <div class="avatar-card">
+        <div class="avatar-circle">🌸</div>
+        <span class="avatar-name">Tereza</span>
+      </div>
+      <div class="avatar-card">
+        <div class="avatar-circle">✨</div>
+        <span class="avatar-name">Gabriela</span>
+      </div>
+      <div class="avatar-card">
+        <div class="avatar-circle">🌿</div>
+        <span class="avatar-name">Kateřina</span>
+      </div>
+    </div>
+    <div class="dates-badge">Praha → Jerevan · 4 dny · 3 noci</div><br><br>
+    <button class="enter-btn" onclick="enterApp()">Vstoupit na pouť</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <nav class="nav">
+    <div class="nav-inner">
+      <button class="nav-home-btn" onclick="goHome()" title="Zpět na úvod">🏔</button>
+      <div class="nav-divider"></div>
+      <button class="nav-tab active" data-page="checklist" onclick="showPage('checklist',this)">✅ Co vzít</button>
+      <button class="nav-tab" data-page="accommodation" onclick="showPage('accommodation',this)">🏨 Ubytování</button>
+      <button class="nav-tab" data-page="itinerary" onclick="showPage('itinerary',this)">🗺 Itinerář</button>
+      <button class="nav-tab" data-page="yerevan" onclick="showPage('yerevan',this)">🏙 Jerevan</button>
+    </div>
+  </nav>
+
+  <!-- PAGE: CO VZÍT -->
+  <div class="page active" id="page-checklist">
+    <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Co vzít &amp; zařídit</h1>
+        <p class="page-desc">Klikni na položku a odškrtni ji – stav se ukládá v prohlížeči.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💸 Peníze &amp; platby</div>
+        <div class="info-card" style="margin-bottom:1rem">
+          <div class="info-card-title">🪙 Arménský dram (AMD)</div>
+          <p>Místní měna. Kurz přibližně: <span class="highlight">1 000 Kč ≈ 18 000–18 500 AMD</span> (kurz se mění, ověřit před cestou).<br>
+          V Jerevanu se platí kartou bez problémů, ale <strong>v menších městech, na tržišti a v taxících vždy hotovost</strong>.</p>
+          <ul>
+            <li>CZK v Arménii nerozměníš – vezmi <strong>USD nebo EUR</strong> (USD nejlépe přijímané)</li>
+            <li>Nejlepší kurz: směnárny v centru Jerevanu (ne na letišti!)</li>
+            <li>Bankomaty fungují – hledej Ameriabank, ACBA, Ardshinbank</li>
+            <li>Spropitné: restaurace 10–15 %, taxi zaokrouhlit, hotel 500–1 000 AMD</li>
+          </ul>
+        </div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Rozměnit koruny na USD nebo EUR</div><div class="check-note">USD jsou v Arménii nejuniverzálnější</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Mít dostatek hotovosti v AMD na místě</div><div class="check-note">Směnit až v Jerevanu v centru – kurzy lepší než na letišti</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Ověřit limity zahraničních výběrů u banky</div><div class="check-note">Některé banky blokují výběry v zahraničí nebo mají vysoké poplatky</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🎒 Příruční batoh – Wizz Air</div>
+        <div class="info-card" style="margin-bottom:1rem">
+          <div class="info-card-title">📐 Rozměry ZDARMA pro všechny cestující</div>
+          <p>Maximální rozměry: <span class="highlight">40 × 30 × 20 cm</span>, max. <span class="highlight">10 kg</span> — musí se vejít pod sedadlo.<br>
+          Kola nesmí přidat více než 5 cm. <strong>Wizz Air skutečně měří</strong> pomocí sízeru!<br><br>
+          Větší trolley bag (55×40×23 cm) jen s dokoupeným Wizz Priority.</p>
+        </div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Zkontrolovat rozměry batohu doma – max. 40 × 30 × 20 cm</div><div class="check-note">Měřit skutečně metrem, nepověřit popis výrobce</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Zabalit kompaktně – rolovat oblečení, packing cubes</div><div class="check-note">Softshellový batoh se lépe vmáčkne do sízeru</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Tekutiny do průhledného sáčku 1 l (max. 100 ml / kus)</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Nejtěžší boty a bundu vzít na sebe na let</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🛂 Doklady</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Pas – zkontrolovat platnost (min. 6 měsíců po návratu)</div><div class="check-note">Arménie vyžaduje pas, OP nestačí</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Vyfotit / naskenovat pas a uložit do mailu / cloudu</div><div class="check-note">Záloha pro případ ztráty originálu</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Cestovní pojištění – vytisknout nebo stáhnout do mobilu</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Letenky a potvrzení ubytování offline v mobilu</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">📱 Aplikace ke stažení</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Offline mapy Arménie – Maps.me, OsmAnd, Seznam Mapy nebo Google Maps</div><div class="check-note">Stáhnout celou Arménii DOMA na Wi-Fi – v Arménii bude data méně</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Yandex Go – taxi v Arménii</div><div class="check-note">Nejpoužívanější taxislužba v Jerevanu i okolí, platba kartou nebo hotovostí</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Google Translate – stáhnout arménštinu a ruštinu offline</div><div class="check-note">Arménština je unikátní skript, ruštinou se domluvíš na venkově</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Booking.com – rezervace ubytování dostupné offline</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">📶 eSIM – data mimo EU</div>
+        <div class="info-card" style="margin-bottom:1rem">
+          <div class="info-card-title">Co je eSIM?</div>
+          <p>eSIM je <strong>digitální SIM karta</strong> – neměníš fyzický čip, aktivuješ datový tarif přes QR kód přímo v nastavení mobilu. Funguje souběžně s tvou českou SIM (duální SIM). Arménie je <strong>mimo EU</strong> – roaming od operátora bývá velmi drahý, eSIM je nejlevnější a nejpohodlnější řešení.<br><br>
+          <strong>Kompatibilita:</strong> iPhone XR a novější, většina Androidů od roku 2020.</p>
+          <ul>
+            <li>Porovnat poskytovatele a tarify online – výběr je velký, ceny se liší</li>
+            <li>Cena: cca <span class="highlight">7–15 € za 4–7 dní</span></li>
+            <li>Instalovat <em>doma před odletem</em> na Wi-Fi, aktivuje se automaticky po příjezdu</li>
+            <li>Funguje i přes cestovní karty jako Revolut (záleží na tarifu)</li>
+          </ul>
+        </div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Ověřit, že telefon podporuje eSIM (Nastavení → SIM / Mobilní data)</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Koupit eSIM pro Arménii</div><div class="check-note">Nainstalovat na Wi-Fi doma, aktivuje se po příletu automaticky</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🍫 Jídlo na cestu</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Energetické tyčinky / ořechy / sušené ovoce</div><div class="check-note">Odlet 19:30 – večeřet budeš ve vzduchu nebo na letišti</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Sendvič nebo svačina na cestu na letiště</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Prázdná lahev na vodu (naplnit za bezpečnostní kontrolou)</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Žvýkačky nebo tabletky na uši (při přistání)</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🔋 Elektronika &amp; ostatní</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Powerbank – nabitá, max. 20 000 mAh do letadla</div><div class="check-note">Noční přílet + plný den venku – mobil bude hodně pracovat!</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Nabíjecí kabely + adaptér</div><div class="check-note">Arménie – typ C/F (stejné jako v ČR 🎉 adaptér nepotřebuješ)</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Sluchátka na let</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Maska na spaní + špunty do uší (noční přesun)</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">👗 Oblečení &amp; výbava</div>
+        <div class="info-card" style="margin-bottom:1rem">
+          <div class="info-card-title">🌡 Počasí v březnu v Arménii</div>
+          <p>Ve dne <span class="highlight">0–10 °C</span>, v noci mráz zejména u jezera Sevan (1 900 m n.m.) a v Dilijan. Jerevan teplejší – cca 8–12 °C. Sluníčko bývá silné – vrstvy jsou klíčem!</p>
+        </div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Teplá vrstvená mikina / fleece</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Lehká nepromokavá větrovka / bunda</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Pevná obuv / trekové boty (trek 9 km v NP Dilijan)</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Čapka, rukavice, šátek / komín</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Opalovací krém (horské slunce je i v zimě silné)</div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💊 Zdraví &amp; lékárnička</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Léky na bolest hlavy, žaludek, průjem</div><div class="check-note">Arménská kuchyně je skvělá, ale jiná – záloha vítána</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Náplasti a obvazy – na trek 9 km!</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Pravidelné léky + kopie receptu</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div><div class="check-label">Ověřit krytí cestovního pojištění</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGE: UBYTOVÁNÍ -->
+  <div class="page" id="page-accommodation">
+    <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Ubytování</h1>
+        <p class="page-desc">3 noci, 3 místa. Všechna ubytování potvrzena přes Booking.com · vše se snídaní.</p>
+      </div>
+
+      <div class="accom-card">
+        <div class="accom-night">🌙 Noc 1 — Pátek 13. → Sobota 14. března</div>
+        <div class="accom-name">Art Hotel Sevan</div>
+        <div class="accom-location"><a href="https://maps.google.com/?q=3/33+5th+km+Sevan-Gavar+Highway+Sevan+Armenia" target="_blank" style="color:var(--gold-dim);text-decoration:none;">📍 3/33, 5th km of Sevan-Gavar Highway, Sevan ↗</a></div>
+        <div class="accom-details">
+          <div class="accom-detail"><div class="accom-detail-label">Check-in</div><div class="accom-detail-value">Pá 14:00–00:00</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Check-out</div><div class="accom-detail-value">So 00:00–12:00</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Hosté</div><div class="accom-detail-value">3 dospělé, 1 noc</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Cena celkem</div><div class="accom-detail-value">983 Kč</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Na osobu</div><div class="accom-detail-value">328 Kč</div></div>
+        </div>
+        <div class="breakfast-badge">☕ Snídaně v ceně</div>
+      </div>
+
+      <div class="accom-card">
+        <div class="accom-night">🌙 Noc 2 — Sobota 14. → Neděle 15. března</div>
+        <div class="accom-name">Paloma Bed and Breakfast</div>
+        <div class="accom-location"><a href="https://maps.google.com/?q=14/10+Getapnya+Street+Dilijan+Armenia" target="_blank" style="color:var(--gold-dim);text-decoration:none;">📍 14/10 Getapnya Street, 3901 Dilijan ↗</a></div>
+        <div class="accom-details">
+          <div class="accom-detail"><div class="accom-detail-label">Check-in</div><div class="accom-detail-value">So 12:00–23:00</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Check-out</div><div class="accom-detail-value">Ne 08:00–11:00</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Hosté</div><div class="accom-detail-value">3 dospělé, 1 noc</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Cena celkem</div><div class="accom-detail-value">1 048 Kč</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Na osobu</div><div class="accom-detail-value">349 Kč</div></div>
+        </div>
+        <div class="breakfast-badge">☕ Snídaně v ceně</div>
+      </div>
+
+      <div class="accom-card">
+        <div class="accom-night">🌙 Noc 3 — Neděle 15. → Pondělí 16. března</div>
+        <div class="accom-name">Apple Hotel</div>
+        <div class="accom-location"><a href="https://maps.google.com/?q=27/2+Tigran+Mets+Ave+Yerevan+Armenia" target="_blank" style="color:var(--gold-dim);text-decoration:none;">📍 27/2 Tigran Mets Ave, 0018 Jerevan ↗</a></div>
+        <div class="accom-details">
+          <div class="accom-detail"><div class="accom-detail-label">Check-in</div><div class="accom-detail-value">Ne 14:00–14:30</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Check-out</div><div class="accom-detail-value">Po 11:30–12:00</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Hosté</div><div class="accom-detail-value">3 dospělé, 1 noc</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Cena celkem</div><div class="accom-detail-value">766 Kč</div></div>
+          <div class="accom-detail"><div class="accom-detail-label">Na osobu</div><div class="accom-detail-value">255 Kč</div></div>
+        </div>
+        <div class="breakfast-badge">☕ Snídaně v ceně</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">💰 Souhrn nákladů za ubytování</div>
+        <ul>
+          <li>Celkem za 3 noci (3 osoby): <span class="highlight">2 797 Kč</span></li>
+          <li>Na osobu za celý pobyt: <span class="highlight">≈ 932 Kč</span></li>
+          <li>Potvrzení zasláno na: komarkova13@gmail.com</li>
+          <li>Všechna ubytování: <strong>potvrzena</strong> ✅</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGE: ITINERÁŘ -->
+  <div class="page" id="page-itinerary">
+    <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Itinerář cesty</h1>
+        <p class="page-desc">Praha → Jerevan → Sevan → Dilijan → Jerevan → Praha · 13.–16. 3. 2026</p>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-badge">Pátek 13. 3.</span>
+          <span class="day-title">✈️ Cesta do Arménie</span>
+        </div>
+        <div class="day-body">
+          <div class="stop"><div class="stop-icon">🛫</div><div><div class="stop-title">Odlet z Prahy – letiště Václava Havla</div><div class="stop-desc">Doporučujeme dorazit nejpozději 2 hodiny před odletem. Odbavení + bezpečnostní kontrola.</div><div class="stop-time">19:30 odlet</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🌙</div><div><div class="stop-title">Přílet do Jerevanu – letiště Zvartnots</div><div class="stop-desc">Noční přílet. Pas, celní kontrola. Připravit eSIM pro aktivaci. Čeká taxi nebo shuttle z hotelu Sevan.</div><div class="stop-time">02:30 přílet (místní čas = SEV +1 od středoevropského)</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🚗</div><div><div class="stop-title">Taxi → Art Hotel Sevan (Jezero Sevan)</div><div class="stop-desc">Cca 70 km z letiště k jezeru. Byl zaslán dotaz na shuttle – čekat na odpověď ubytování. Záloha: Yandex Go nebo taxi přímo na letišti.</div><div class="stop-time">⏱ cca 1–1,5 h jízdy</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">😴</div><div><div class="stop-title">Spánek u Jezera Sevan</div><div class="stop-desc">Krátká noc – ráno procházka k jezeru a klášteru.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-badge">Sobota 14. 3.</span>
+          <span class="day-title">🌊 Sevan → Dilijan</span>
+        </div>
+        <div class="day-body">
+          <div class="stop"><div class="stop-icon">🌅</div><div><div class="stop-title">Ráno u Jezera Sevan</div><div class="stop-desc">Jezero v nadm. výšce 1 900 m n.m. – jedno z největších horských jezer na světě. Ranní světlo je nádherné.</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">⛪</div><div><div class="stop-title">Klášter Sevanavank</div><div class="stop-desc">Pěší výlet od ubytování na poloostrov. Klášter ze 9. stol. s výhledem na celé jezero Sevan – jedna z nejfotogeničtějších scenérií Arménie.</div><div class="stop-time">⏱ 30–45 min · vstup volný</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🚐</div><div><div class="stop-title">Přesun do Dilijan</div><div class="stop-desc">Taxi (pohodlnější) nebo marshrutka – minibus (levnější, místní zážitek). Cesta malebnou krajinou Arménské vysočiny. Check-in od 12:00.</div><div class="stop-time">⏱ cca 45–60 min</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🏘</div><div><div class="stop-title">Dilijan – Staré centrum (Sharambeyan Street)</div><div class="stop-desc">Opravené historické centrum – řemeslné dílny, kavárny, galerie. Dilijan se přezdívá „arménské Švýcarsko". Příjemná procházka.</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">⛪</div><div><div class="stop-title">Klášter Haghartsin (možný výlet)</div><div class="stop-desc">Nádherný klášterní komplex z 10.–13. stol. schovaný v hlubokém lese. Taxi tam a zpět cca 10–15 €. Záleží na čase a energii.</div><div class="stop-time">⏱ cca 1,5–2 h s cestou</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🍽</div><div><div class="stop-title">Večeře v Dilijan + noc v Paloma B&amp;B</div><div class="stop-desc">Odpočinek po náročném prvním dni na pouti.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-badge">Neděle 15. 3.</span>
+          <span class="day-title">🌲 Trek v NP Dilijan → Jerevan</span>
+        </div>
+        <div class="day-body">
+          <div class="stop"><div class="stop-icon">☕</div><div><div class="stop-title">Snídaně + check-out (do 08:00–11:00)</div><div class="stop-desc">Paloma B&amp;B – stihnout snídani, pak vyrazit na trek!</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🚗</div><div><div class="stop-title">Taxi → Jezero Parz</div><div class="stop-desc">Krásné malé jezírko v Dilijan National Park. Úvodní zastávka před trekem – výhled, klid.</div><div class="stop-time">⏱ 20 min z Dilijan</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🥾</div><div><div class="stop-title">Trek: Jezero Parz → Klášter Goshavank</div><div class="stop-desc">Hlavní túra dne! Lesní trasa Dilijan National Park. Krásné bukové lesy, klidná příroda. Na konci klášter Goshavank (12.–13. stol.) ve vesničce Gosh.</div><div class="stop-time">📏 9 km · ⏱ 3–4 hodiny · střední obtížnost</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">⛪</div><div><div class="stop-title">Klášter Goshavank – cíl treku</div><div class="stop-desc">Středověký klášterní komplex s unikátními khachkary (kamenné kříže). Odpočinek, jídlo, než vyrazíte do Jerevanu.</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🚖</div><div><div class="stop-title">Taxi: Goshavank → Jerevan</div><div class="stop-desc">Přímé taxi z konce treku do hlavního města. Příjezd večer, check-in Apple Hotel.</div><div class="stop-time">⏱ cca 2 h · cena cca 25–35 €</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🌃</div><div><div class="stop-title">Příjezd do Jerevanu – noc v Apple Hotelu</div><div class="stop-desc">Check-in 14:00–14:30. Večer volný – procházka po Tigran Mets Avenue nebo odpočinek.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-badge">Pondělí 16. 3.</span>
+          <span class="day-title">🏙 Jerevan &amp; odlet domů</span>
+        </div>
+        <div class="day-body">
+          <div class="stop"><div class="stop-icon">☕</div><div><div class="stop-title">Snídaně + check-out</div><div class="stop-desc">Apple Hotel – check-out do 11:30–12:00. Zavazadla do úschovny, vyrazit do města.</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🗺</div><div><div class="stop-title">Procházka Jerevanem</div><div class="stop-desc">Republic Square → Cascade Complex → Ararat Koňakárna → Vernissage Market. Vše blízko sebe, pěšky zvládnuto za dopoledne. Viz záložka Jerevan pro detaily.</div></div></div>
+          <hr class="stop-divider">
+          <div class="stop"><div class="stop-icon">🛫</div><div><div class="stop-title">Odlet z Jerevanu – letiště Zvartnots</div><div class="stop-desc">Doporučujeme být na letišti 2–2,5 h před odletem. Taxi z centra cca 20–25 min, cena 10–15 €.</div><div class="stop-time">17:35 odlet → 18:55 přílet Praha ✈️</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGE: JEREVAN -->
+  <div class="page" id="page-yerevan">
+    <div class="content">
+      <div class="page-header">
+        <h1 class="page-title">Jerevan</h1>
+        <p class="page-desc">Výlety a tipy na pondělní dopoledne před odletem</p>
+      </div>
+
+      <div class="info-card" style="margin-bottom:2rem">
+        <div class="info-card-title">🗺 Orientace v centru</div>
+        <p>Všechny tipy jsou v kompaktním centru – pěšky přejdeš z jednoho na druhý za 10–20 minut. Doporučené pořadí: <span class="highlight">Republic Square → Cascade → Ararat Brandy → Vernissage</span>.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🏛 Co vidět a zažít</div>
+
+        <div class="yerevan-card">
+          <div class="yerevan-num">01 · Náměstí</div>
+          <div class="yerevan-name">Republic Square (Площадь Республики)</div>
+          <div class="yerevan-body">
+            Hlavní náměstí Jerevanu. Impozantní architektura z <strong>růžového tufu</strong> – sopečného kamene typického pro Arménii. Obklopeno vládními budovami, fontánami a muzei.<br><br>
+            Pokud bude čas: <strong>Muzeum Historie Arménie</strong> přímo na náměstí – starověké exponáty, urartská civilizace (předchůdci Arménů).
+          </div>
+          <div class="yerevan-time">⏱ 20–30 min · vstup na náměstí zdarma · muzeum placené</div>
+        </div>
+
+        <div class="yerevan-card">
+          <div class="yerevan-num">02 · Vyhlídka</div>
+          <div class="yerevan-name">Cascade Complex</div>
+          <div class="yerevan-body">
+            Impozantní schodiště vedoucí do kopce s <strong>výhledem na město a horu Ararat</strong>. Ararat leží v Turecku, ale z Jerevanu je jeho silueta monumentální – a je symbolem celé Arménie. Podél schodiště moderní sochy a fontány.<br><br>
+            Uvnitř: Cafesjian Museum of Art – mezinárodní sbírka moderního umění, část přístupná zdarma.
+          </div>
+          <div class="yerevan-time">⏱ 30–45 min · vstup zdarma (muzeum uvnitř placené)</div>
+        </div>
+
+        <div class="yerevan-card">
+          <div class="yerevan-num">03 · Zážitek</div>
+          <div class="yerevan-name">🥃 Ararat Brandy Factory – degustace koňaku</div>
+          <div class="yerevan-body">
+            Nejslavnější arménský koňak. Destilárna z roku 1887. Prohlídka s průvodcem, ochutnávka 2–3 koňaků různého věku.<br><br>
+            Zajímavost: Winston Churchill byl závislý na Araratu – Stalin mu prý posílal bedny jako diplomatický dar.<br><br>
+            <strong>Otevírací doba:</strong> Po–Ne 10:00–18:00 — <span class="highlight">pondělí OTEVŘENO ✅</span><br>
+            Vstup s degustací cca 10–20 € / osoba. Doporučujeme rezervaci předem online (web Ararat).
+          </div>
+          <div class="yerevan-time">⏱ cca 1 hodina · rezervace doporučena</div>
+        </div>
+
+        <div class="yerevan-card">
+          <div class="yerevan-num">04 · Trh</div>
+          <div class="yerevan-name">🛍 Vernissage Market</div>
+          <div class="yerevan-body">
+            Velký venkovní trh v centru. Arménské suvenýry, ručně vyráběné šperky, miniaturní khachkary, koberce, sovětské starožitnosti a originální umění.<br><br>
+            Skvělé na poslední nákupy před odletem. <strong>Tip:</strong> smlouvat je v pořádku a očekávané. Platba hotovostí v AMD.
+          </div>
+          <div class="yerevan-time">⏱ 30–45 min · největší o víkendu, pondělí bývá ok</div>
+        </div>
+
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">🍽 Co ochutnat v Jerevanu</div>
+        <ul>
+          <li><strong>Lavash</strong> – arménský placatý chléb (UNESCO dědictví)</li>
+          <li><strong>Khorovats</strong> – arménský BBQ/grill, říká se mu i „arménský kebab"</li>
+          <li><strong>Dolma</strong> – mleté maso zabalené do vinných listů nebo zelí</li>
+          <li><strong>Arménský koňak Ararat</strong> – absolutní povinnost!</li>
+          <li><strong>Matsun</strong> – tradiční arménský kysaný jogurt</li>
+          <li><strong>Gata</strong> – sladké pečivo s ořechy, místní specialita</li>
+          <li><strong>Tan</strong> – osvěžující nápoj z matsunu a vody</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function enterApp() {
+  document.getElementById('homepage').style.display = 'none';
+  const app = document.getElementById('app');
+  app.style.display = 'flex';
+  app.style.flexDirection = 'column';
+  loadChecks();
+}
+
+function goHome() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('homepage').style.display = 'flex';
+}
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  saveChecks();
+}
+
+function saveChecks() {
+  const states = {};
+  document.querySelectorAll('.check-item').forEach((el, i) => {
+    states[i] = el.classList.contains('checked');
+  });
+  try { localStorage.setItem('armenia-checks-2026', JSON.stringify(states)); } catch(e) {}
+}
+
+function loadChecks() {
+  try {
+    const saved = localStorage.getItem('armenia-checks-2026')
